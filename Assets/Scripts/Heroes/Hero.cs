@@ -58,6 +58,10 @@ public abstract class Hero : Pawn, IBag
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100)) 
         {
             Move(hit.point);
+            if (hit.transform.TryGetComponent<Shop>(out var shop))
+            {
+                shop.OnPlayerClicked(MeshAgent.destination);
+            }
         }
     }
 }

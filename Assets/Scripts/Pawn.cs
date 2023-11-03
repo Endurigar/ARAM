@@ -15,16 +15,16 @@ public abstract class Pawn : MonoBehaviour, IPawn
     public float MagicDamage { get; set; }
     public float Armor { get; set; }
     public float MagicResist { get; set; }
-    private NavMeshAgent navMeshAgent;
+    public NavMeshAgent MeshAgent { get; private set; }
 
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        MeshAgent = GetComponent<NavMeshAgent>();
     }
 
     public void Move(Vector3 targetPoint)
     {
-        navMeshAgent.destination = targetPoint;
+        MeshAgent.destination = targetPoint;
     }
 
     public void TakeDamage(float damage, float magicDamage)
