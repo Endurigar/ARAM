@@ -12,8 +12,9 @@ public abstract class Hero : Pawn, IBag
         set => bag = value;
     }
 
-    void IBag.AddItem(IItem item)
+    public void AddItem(IItem item)
     {
+        Debug.Log("bya");
         if (item.Cost <= gold)
         {
             bag.Add(item);

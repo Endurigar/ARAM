@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class HeroTest : Hero
+namespace Heroes
 {
-    
+    public class HeroTest : Hero
+    {
+
+    }
 }
