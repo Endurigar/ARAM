@@ -1,34 +1,42 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utilities;
 
-public abstract class Hero : Pawn, IBag
+public abstract class Hero : Pawn, IInventory
 {
     protected float gold;
     private List<IItem> bag;
-    List<IItem> IBag.Bag
+    
+    public List<IItem> Bag => bag;
+    List<IItem> IInventory.Bag
     {
         get => bag;
         set => bag = value;
     }
 
+    public Action<IItem> OnAddItem { get; set; }
+    public Action<IItem> OnRemoveItem { get; set; }
+    public Action<IItem> OnUseItem { get; set; }
+
     public void AddItem(IItem item)
-    {
-        Debug.Log("bya");
+    { 
         if (item.Cost <= gold)
         {
+            OnAddItem(item);
             bag.Add(item);
             gold -= item.Cost;   
         }
     }
 
-    void IBag.RemoveItem(IItem item)
+    void IInventory.RemoveItem(IItem item)
     {
         gold += item.Cost / 2;
         bag.Remove(item);
     }
 
-    void IBag.UseItem(IItem item)
+    void IInventory.UseItem(IItem item)
     {
         item.UseItem();
     }

@@ -17,7 +17,7 @@ public class ItemIconSpawner : MonoBehaviour
 
         private void ItemSpawner()
         {
-            foreach (IItem t in shopMenu.Items)
+            foreach (ItemInfo t in shopMenu.Items)
             {
                 var newLevelButton = Instantiate(itemButton, transform); 
                 newLevelButton.GetComponent<ItemIcon>().SetItemInfo(t,shopMenu);
