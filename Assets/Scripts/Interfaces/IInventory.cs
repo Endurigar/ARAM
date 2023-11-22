@@ -6,7 +6,7 @@ using Utilities;
 
 public interface IInventory
 {
-    protected List<IItem> Bag { get; set; }
+    public List<IItem> Bag { get; set; }
     public Action<IItem> OnAddItem{ get; set; }
     public Action<IItem> OnRemoveItem{ get; set; }
     public Action<IItem> OnUseItem{ get; set; }

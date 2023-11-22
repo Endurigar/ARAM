@@ -36,9 +36,8 @@ public class Shop : MonoBehaviour
             if (lastDestination == hero.MeshAgent.destination && playerClicked)
             {
                 this.hero = hero;
-                
                 ClearGrid(inventoryGrid);
-                InitItems(inventoryGrid, hero.GetComponent<Test>().items);
+                InitItems(inventoryGrid, hero.Bag);
                 shopMenu.SetActive(true);
             }
             playerInShopArea = true;
@@ -70,8 +69,10 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void BuyItem(ItemInfo item)
+    public void BuyItem(IItem item)
     {
+        var newLevelButton = Instantiate(item.Icon, inventoryGrid); 
+        newLevelButton.GetComponent<ItemIcon>().SetItemInfo(item,this);
         hero.AddItem(item);
     }
 

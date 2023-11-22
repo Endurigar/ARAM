@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ItemInfo
   m_EditorClassIdentifier: 
   <Name>k__BackingField: BOMBA
-  <Cost>k__BackingField: 0
-  <Icon>k__BackingField: {fileID: 8078402332118987590, guid: 7dd847d399b6ee3489cf5bc2e532d4b3, type: 3}
+  <Cost>k__BackingField: 100
+  <Icon>k__BackingField: {fileID: 8078402332118987590, guid: 57e2543d0b8f50c4eae09631c4acfc57, type: 3}

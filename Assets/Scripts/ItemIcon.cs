@@ -10,7 +10,7 @@ public class ItemIcon : MonoBehaviour
 {
     [SerializeField] private TMP_Text itemName;
     [SerializeField] private Button iconButton;
-    private ItemInfo item;
+    private IItem item;
     private Shop shopMenu;
 
     private void Start()
@@ -23,8 +23,9 @@ public class ItemIcon : MonoBehaviour
         shopMenu.BuyItem(item);
     }
 
-    public void SetItemInfo(ItemInfo item, Shop shopMenu)
+    public void SetItemInfo(IItem item, Shop shopMenu)
     {
+        this.shopMenu = shopMenu;
         this.item = item;
         itemName.text = this.item.Name;
     }

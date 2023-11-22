@@ -6,15 +6,14 @@ using Utilities;
 
 public abstract class Hero : Pawn, IInventory
 {
-    protected float gold;
-    private List<IItem> bag;
-    
-    public List<IItem> Bag => bag;
+    protected float gold = 1000;
+    private List<IItem> bag = new List<IItem>();
     List<IItem> IInventory.Bag
     {
         get => bag;
         set => bag = value;
     }
+    public List<IItem> Bag => bag;
 
     public Action<IItem> OnAddItem { get; set; }
     public Action<IItem> OnRemoveItem { get; set; }
@@ -22,7 +21,7 @@ public abstract class Hero : Pawn, IInventory
 
     public void AddItem(IItem item)
     { 
-        if (item.Cost <= gold)
+        if (item.Cost <= gold && bag.Count < 6)
         {
             OnAddItem(item);
             bag.Add(item);
