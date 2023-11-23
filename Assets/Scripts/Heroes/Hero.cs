@@ -29,7 +29,7 @@ public abstract class Hero : Pawn, IInventory
         }
     }
 
-    void IInventory.RemoveItem(IItem item)
+    public void RemoveItem(IItem item)
     {
         gold += item.Cost / 2;
         bag.Remove(item);

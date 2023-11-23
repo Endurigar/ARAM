@@ -12,6 +12,6 @@ public interface IInventory
     public Action<IItem> OnUseItem{ get; set; }
     
     public void AddItem(IItem item);
-    protected void RemoveItem(IItem item);
+    public void RemoveItem(IItem item);
     protected void UseItem(IItem item);
 }

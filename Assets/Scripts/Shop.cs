@@ -11,7 +11,10 @@ public class Shop : MonoBehaviour
     [SerializeField] private GameObject shopMenu;
     [SerializeField] private Transform shopGrid; 
     [SerializeField] private Transform inventoryGrid;
+    [SerializeField] private Button buyButton;
+    [SerializeField] private Button sellButton;
     [SerializeField] private List<ItemInfo> items;
+    public IItem SelectedItem;
     private bool playerInShopArea = false;
     private bool playerClicked = false;
     private Vector3 lastDestination;
@@ -22,6 +25,8 @@ public class Shop : MonoBehaviour
     private void Start()
     {
        InitItems(shopGrid, items);
+       buyButton.onClick.AddListener(BuyItem);
+       sellButton.onClick.AddListener(SellItem);
     }
 
     public void OnPlayerClicked(Vector3 currentDestination)
@@ -69,11 +74,22 @@ public class Shop : MonoBehaviour
         }
     }
 
+    public void BuyItem()
+    {
+        var newLevelButton = Instantiate(SelectedItem.Icon, inventoryGrid); 
+        newLevelButton.GetComponent<ItemIcon>().SetItemInfo(SelectedItem,this);
+        hero.AddItem(SelectedItem);
+    }
     public void BuyItem(IItem item)
     {
-        var newLevelButton = Instantiate(item.Icon, inventoryGrid); 
-        newLevelButton.GetComponent<ItemIcon>().SetItemInfo(item,this);
-        hero.AddItem(item);
+        var newLevelButton = Instantiate(SelectedItem.Icon, inventoryGrid); 
+        newLevelButton.GetComponent<ItemIcon>().SetItemInfo(SelectedItem,this);
+        hero.AddItem(SelectedItem);
+    }
+
+    public void SellItem()
+    {
+        hero.RemoveItem(SelectedItem);
     }
 
     private void OnTriggerExit(Collider other)

@@ -836,6 +836,8 @@ MonoBehaviour:
   shopMenu: {fileID: 696845559}
   shopGrid: {fileID: 1600607258}
   inventoryGrid: {fileID: 1684307150}
+  buyButton: {fileID: 125072357}
+  sellButton: {fileID: 1561203323}
   items:
   - {fileID: 11400000, guid: 6d443b7ff0544984488ccd9b97508729, type: 2}
   - {fileID: 11400000, guid: a9758a5ab38d59d478aacf25aff3c0f6, type: 2}
