@@ -11,7 +11,7 @@ public interface IInventory
     public Action<IItem> OnRemoveItem{ get; set; }
     public Action<IItem> OnUseItem{ get; set; }
     
-    public void AddItem(IItem item);
+    public bool AddItem(IItem item);
     public void RemoveItem(IItem item);
     protected void UseItem(IItem item);
 }

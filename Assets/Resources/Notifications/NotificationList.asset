@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b204a1db9ad864384e016cd039ea11, type: 3}
+  m_Name: NotificationList
+  m_EditorClassIdentifier: 
+  Notifications:
+  - Name: NotSelected
+    Message: Item not selected
+    MessageType: 0
+  - Name: FailedToPurchase
+    Message: Failed to purchase
+    MessageType: 0
+  - Name: NotEnoughGold
+    Message: There is not enough gold to purchase
+    MessageType: 0
+  - Name: SuccessfulPurchase
+    Message: Successful purchase
+    MessageType: 1
+  - Name: SuccessfulSold
+    Message: Successfully sold
+    MessageType: 1

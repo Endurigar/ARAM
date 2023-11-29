@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enum;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -13,8 +15,10 @@ public class Shop : MonoBehaviour
     [SerializeField] private Transform inventoryGrid;
     [SerializeField] private Button buyButton;
     [SerializeField] private Button sellButton;
+    [SerializeField] private NotificationList notificationList;
     [SerializeField] private List<ItemInfo> items;
-    public IItem SelectedItem;
+    public IItem SelectedItemInShop;
+    public IItem SelectedItemInInventory;
     private bool playerInShopArea = false;
     private bool playerClicked = false;
     private Vector3 lastDestination;
@@ -24,7 +28,7 @@ public class Shop : MonoBehaviour
 
     private void Start()
     {
-       InitItems(shopGrid, items);
+       InitItems(shopGrid, items, EInventoryType.ShopListType);
        buyButton.onClick.AddListener(BuyItem);
        sellButton.onClick.AddListener(SellItem);
     }
@@ -42,27 +46,27 @@ public class Shop : MonoBehaviour
             {
                 this.hero = hero;
                 ClearGrid(inventoryGrid);
-                InitItems(inventoryGrid, hero.Bag);
+                InitItems(inventoryGrid, hero.Bag, EInventoryType.ShopInventoryType);
                 shopMenu.SetActive(true);
             }
             playerInShopArea = true;
         }
     }
     
-    private void InitItems(Transform grid, List<IItem> items)
+    private void InitItems(Transform grid, List<IItem> items, EInventoryType type)
     {
         foreach (ItemInfo t in items)
         {
             var newLevelButton = Instantiate(t.Icon, grid); 
-            newLevelButton.GetComponent<ItemIcon>().SetItemInfo(t,this);
+            newLevelButton.GetComponent<ItemIcon>().SetItemInfo(t,this, type);
         }
     }
-    private void InitItems(Transform grid, List<ItemInfo> items)
+    private void InitItems(Transform grid, List<ItemInfo> items, EInventoryType type)
     {
         foreach (ItemInfo t in items)
         {
             var newLevelButton = Instantiate(t.Icon, grid); 
-            newLevelButton.GetComponent<ItemIcon>().SetItemInfo(t,this);
+            newLevelButton.GetComponent<ItemIcon>().SetItemInfo(t,this, type);
         }
     }
 
@@ -76,24 +80,39 @@ public class Shop : MonoBehaviour
 
     public void BuyItem()
     {
-        var newLevelButton = Instantiate(SelectedItem.Icon, inventoryGrid); 
-        newLevelButton.GetComponent<ItemIcon>().SetItemInfo(SelectedItem,this);
-        hero.AddItem(SelectedItem);
-    }
-    public void BuyItem(IItem item)
-    {
-        var newLevelButton = Instantiate(SelectedItem.Icon, inventoryGrid); 
-        newLevelButton.GetComponent<ItemIcon>().SetItemInfo(SelectedItem,this);
-        hero.AddItem(SelectedItem);
+        if(SelectedItemInShop==null)        
+        {
+            NotificationService.OnMessage(notificationList.GetNotificationByName("NotSelected"));
+            return;
+        }
+        if (!hero.AddItem(SelectedItemInShop))
+        {
+            NotificationService.OnMessage(notificationList.GetNotificationByName("FailedToPurchase"));
+            return;
+        }
+        var newLevelButton = Instantiate(SelectedItemInShop.Icon, inventoryGrid); 
+        newLevelButton.GetComponent<ItemIcon>().SetItemInfo(SelectedItemInShop,this, EInventoryType.ShopInventoryType);
+        NotificationService.OnMessage(notificationList.GetNotificationByName("SuccessfulPurchase"));
     }
 
     public void SellItem()
     {
-        hero.RemoveItem(SelectedItem);
+        if (SelectedItemInInventory == null)
+        {
+            NotificationService.OnMessage(notificationList.GetNotificationByName("NotSelected"));
+            return;
+        }
+        hero.RemoveItem(SelectedItemInInventory);
+        SelectedItemInInventory = null;
+        ClearGrid(inventoryGrid);
+        InitItems(inventoryGrid, hero.Bag, EInventoryType.ShopInventoryType);
+        NotificationService.OnMessage(notificationList.GetNotificationByName("SuccessfulSold"));
     }
 
     private void OnTriggerExit(Collider other)
     {
         shopMenu.SetActive(false);
+        SelectedItemInShop = null;
+        SelectedItemInInventory = null;
     }
 }

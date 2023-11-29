@@ -15,10 +15,13 @@ public abstract class Pawn : MonoBehaviour, IPawn
     public float MagicDamage { get; set; }
     public float Armor { get; set; }
     public float MagicResist { get; set; }
+    public float Experience { get; set; }
+    public uint Level { get; set; }
     public NavMeshAgent MeshAgent { get; private set; }
 
     private void Start()
     {
+        Level = 1;
         MeshAgent = GetComponent<NavMeshAgent>();
     }
 
@@ -45,5 +48,19 @@ public abstract class Pawn : MonoBehaviour, IPawn
     public void Death()
     {
         throw new System.NotImplementedException();
+    }
+
+    public void AddExperience(float experience)
+    {
+        Experience += experience;
+    }
+
+    public void LevelUp()
+    {
+        if(Level > LevelsDictionary.Levels.Count-1) return;
+        if (Experience >= LevelsDictionary.Levels[Level + 1])
+        {
+            Level++;
+        }
     }
 }

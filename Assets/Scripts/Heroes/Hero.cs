@@ -19,14 +19,17 @@ public abstract class Hero : Pawn, IInventory
     public Action<IItem> OnRemoveItem { get; set; }
     public Action<IItem> OnUseItem { get; set; }
 
-    public void AddItem(IItem item)
-    { 
+    public bool AddItem(IItem item)
+    {
         if (item.Cost <= gold && bag.Count < 6)
         {
             OnAddItem(item);
             bag.Add(item);
-            gold -= item.Cost;   
+            item.OwnedByPlayer = true;
+            gold -= item.Cost;
+            return true;
         }
+        return false;
     }
 
     public void RemoveItem(IItem item)

@@ -12,9 +12,14 @@ public interface IPawn
     public float MagicDamage { get; set; }
     public float Armor { get; set; }
     public float MagicResist { get; set; }
+    public float Experience { get; set; }
+    public uint Level { get; set; }
 
     public void Move(Vector3 targetPoint);
     public void TakeDamage(float damage, float magicDamage);
     public void Attack(IPawn target);
     public void Death();
+
+    public void AddExperience(float experience);
+    public void LevelUp();
 }
