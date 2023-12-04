@@ -6,7 +6,11 @@ using Utilities;
 
 public abstract class Hero : Pawn, IInventory
 {
-    protected float gold = 1000;
+    [SerializeField] private Skill qSkill;
+    [SerializeField] private Skill wSkill;
+    [SerializeField] private Skill eSkill;
+    [SerializeField] private Skill rSkill;
+    public float gold = 1000;
     private List<IItem> bag = new List<IItem>();
     List<IItem> IInventory.Bag
     {
@@ -45,24 +49,46 @@ public abstract class Hero : Pawn, IInventory
 
     protected virtual void OnPressQ()
     {
-        
+        qSkill.UseSkill(this);
+        baseAnimator.QSkill();
     }
     
     protected virtual void OnPressW()
     {
-        
+        wSkill.UseSkill(this);
+        baseAnimator.WSkill();
     }
     
     protected virtual void OnPressE()
     {
-        
+        eSkill.UseSkill(this);
+        baseAnimator.ESkill();
     }
     
     protected virtual void OnPressR()
     {
-        
+        rSkill.UseSkill(this);
+        baseAnimator.RSkill();
     }
 
+    public void UpSkill(ESkillHotKey skillHotKey)
+    {
+        switch (skillHotKey)
+        {
+            case ESkillHotKey.Q:
+                qSkill.SkillLevel++;
+                break;
+            case ESkillHotKey.W:
+                wSkill.SkillLevel++;
+                break;
+            case ESkillHotKey.E:
+                eSkill.SkillLevel++;
+                break;
+            case ESkillHotKey.R:
+                rSkill.SkillLevel++;
+                break;
+        }
+    }
     protected virtual void OnMove()
     {
         RaycastHit hit;

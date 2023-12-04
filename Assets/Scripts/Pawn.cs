@@ -3,12 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Utilities;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class Pawn : MonoBehaviour, IPawn
 {
+    [SerializeField] private NotificationList notificationList;
+    [SerializeField] protected BaseAnimator baseAnimator;
     public float MaxHealth { get; set; }
     public float CurrentHealth { get; set; }
+    public float MaxMana { get; set; }
+    public float CurrentMana { get; set; }
     public float Mana { get; set; }
     public float Speed { get; set; }
     public float Damage { get; set; }
@@ -23,6 +28,11 @@ public abstract class Pawn : MonoBehaviour, IPawn
     {
         Level = 1;
         MeshAgent = GetComponent<NavMeshAgent>();
+    }
+
+    protected void Update()
+    {
+        baseAnimator.SetSpeed(Speed);
     }
 
     public void Move(Vector3 targetPoint)
@@ -43,24 +53,26 @@ public abstract class Pawn : MonoBehaviour, IPawn
     public void Attack(IPawn target)
     {
         target.TakeDamage(Damage,MagicDamage);
+        baseAnimator.Attack();
     }
 
     public void Death()
     {
-        throw new System.NotImplementedException();
+        baseAnimator.Death();
     }
 
     public void AddExperience(float experience)
     {
         Experience += experience;
     }
-
+    
     public void LevelUp()
     {
         if(Level > LevelsDictionary.Levels.Count-1) return;
         if (Experience >= LevelsDictionary.Levels[Level + 1])
         {
             Level++;
+            NotificationService.OnMessage(notificationList.GetNotificationByName("LevelUp"));
         }
     }
 }

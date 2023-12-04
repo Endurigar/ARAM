@@ -6,7 +6,8 @@ public interface IPawn
 {
     public float MaxHealth { get; set; }
     public float CurrentHealth { get; set; }
-    public float Mana { get; set; }
+    public float MaxMana{ get; set; }
+    public float CurrentMana { get; set; }
     public float Speed { get; set; }
     public float Damage{ get; set; }
     public float MagicDamage { get; set; }
